@@ -4,7 +4,6 @@
     "text": "Kolik času jsi dnes strávil přemýšlením o sobě?",
     "tags": [
       "sebepoznání",
-      "reflexe",
       "hranice"
     ],
     "schemas": [
@@ -22,7 +21,7 @@
     "tags": [
       "hranice",
       "autenticita",
-      "seberegulace"
+      "zklidnění"
     ],
     "schemas": [
       "SELFSAC",
@@ -56,7 +55,7 @@
     "tags": [
       "autenticita",
       "smutek",
-      "sebeúcta"
+      "sebeláska"
     ],
     "schemas": [
       "EMODEP",
@@ -73,7 +72,7 @@
     "tags": [
       "emoce",
       "vztahy",
-      "pravda"
+      "autenticita"
     ],
     "schemas": [
       "EMODEP",
@@ -88,9 +87,9 @@
     "id": "quest_0006",
     "text": "Zkoušíš si občas emočně ulevit jídlem, prací nebo nákupy namísto toho, abys vyhledal(a) lidskou blízkost?",
     "tags": [
-      "zdravé návyky",
+      "návyky",
       "samota",
-      "seberegulace"
+      "zklidnění"
     ],
     "schemas": [
       "EMODEP",
@@ -105,7 +104,7 @@
     "id": "quest_0007",
     "text": "Na kom v tvém životě nejvíc visí tvůj pocit bezpečí a co by se stalo, kdyby ten člověk zítra odešel?",
     "tags": [
-      "osamělost",
+      "samota",
       "strach",
       "vztahy"
     ],
@@ -124,7 +123,7 @@
     "tags": [
       "vztahy",
       "odvaha",
-      "paradox"
+      "moudrost"
     ],
     "schemas": [
       "ABINST",
@@ -140,8 +139,8 @@
     "text": "Kolik tvé současné úzkosti pramení ze strachu, že stabilita, kterou teď prožíváš, je jen ticho před bouří?",
     "tags": [
       "úzkost",
-      "negativní myšlenky",
-      "naděje"
+      "myšlenky",
+      "motivace"
     ],
     "schemas": [
       "ABINST",
@@ -157,8 +156,8 @@
     "text": "Odkud pramení tvoje přesvědčení, že tě druzí lidé dřív nebo později zradí nebo zneužijou, pokud polevíš v ostražitosti?",
     "tags": [
       "strach",
-      "přátelství",
-      "lidská přirozenost"
+      "vztahy",
+      "přirozenost"
     ],
     "schemas": [
       "MISAB",
@@ -175,7 +174,7 @@
     "tags": [
       "přijetí",
       "stud",
-      "sebeúcta"
+      "sebeláska"
     ],
     "schemas": [
       "MISAB",
@@ -191,7 +190,7 @@
     "text": "Kdo tě v minulosti tak moc zranil, že kvůli němu dodnes podezříváš i lidi, kteří to s tebou myslí upřímně?",
     "tags": [
       "rodina",
-      "odpuštění",
+      "přijetí",
       "vnitřní části"
     ],
     "schemas": [
@@ -208,8 +207,7 @@
     "text": "Čím sytíš svoji iluzi, že tě samota a izolace ochrání před utrpením, když tě ve skutečnosti pomalu zabíjí?",
     "tags": [
       "samota",
-      "osamělost",
-      "odolnost"
+      "odvaha"
     ],
     "schemas": [
       "ISOLAL",
@@ -224,8 +222,8 @@
     "id": "quest_0014",
     "text": "Kam až sahá tvůj pocit, že nikam nepatříš, do žádné skupiny ani komunity, a že jsi na světě úplně cizí?",
     "tags": [
-      "osamělost",
-      "lidská přirozenost",
+      "samota",
+      "přirozenost",
       "smutek"
     ],
     "schemas": [
@@ -242,7 +240,7 @@
     "text": "Zkoušíš občas maskovat svůj pocit odlišnosti tím, že se přehnaně přizpůsobuješ zájmům a názorům ostatních?",
     "tags": [
       "autenticita",
-      "přátelství",
+      "vztahy",
       "sebepoznání"
     ],
     "schemas": [
@@ -259,8 +257,8 @@
     "text": "Když se ti nedaří, mluvíš se sebou jako s přítelem, nebo jako s někým, koho vyloženě nesnášíš?",
     "tags": [
       "stud",
-      "nedokonalost",
-      "sebekritika"
+      "přijetí",
+      "sebeláska"
     ],
     "schemas": [
       "DEFSH",
@@ -277,7 +275,7 @@
     "tags": [
       "stud",
       "autenticita",
-      "sebeúcta"
+      "sebeláska"
     ],
     "schemas": [
       "DEFSH",
@@ -293,8 +291,8 @@
     "text": "Jak moc odvozuješ svou lidskou hodnotu od chyb, které jsi udělal(a) v minulosti?",
     "tags": [
       "vina",
-      "odpuštění",
-      "sebepřijetí"
+      "přijetí",
+      "sebeláska"
     ],
     "schemas": [
       "DEFSH",
@@ -345,7 +343,7 @@
     "tags": [
       "sebevědomí",
       "rozhodování",
-      "osobnost"
+      "sebepoznání"
     ],
     "schemas": [
       "DEPINC",
@@ -360,7 +358,7 @@
     "id": "quest_0022",
     "text": "Kde bereš jistotu, že tvoje katastrofické scénáře v hlavě jsou předpověď reality a ne jen projev unaveného těla?",
     "tags": [
-      "negativní myšlenky",
+      "myšlenky",
       "úzkost",
       "přerámování"
     ],
@@ -378,7 +376,7 @@
     "text": "Kolik energie denně spálíš neustálou kontrolou věcí, které ze své podstaty vůbec nedokážeš ovlivnit?",
     "tags": [
       "stres",
-      "seberegulace",
+      "zklidnění",
       "mindfulness"
     ],
     "schemas": [
@@ -446,8 +444,7 @@
     "text": "Dokázal(a) bys dnes popsat, kdo doopravdy jsi, kdybychom ze tvého života škrtli tvoje role dítěte, partnera či zaměstnance?",
     "tags": [
       "sebepoznání",
-      "autenticita",
-      "osobnost"
+      "autenticita"
     ],
     "schemas": [
       "ENMUND",
@@ -479,8 +476,8 @@
     "id": "quest_0029",
     "text": "Nezaměňuješ náhodou dělání chyb s pocitem, že ty sám / ty sama jsi jedno velké selhání?",
     "tags": [
-      "nedokonalost",
-      "sebeúcta",
+      "přijetí",
+      "sebeláska",
       "přerámování"
     ],
     "schemas": [
@@ -513,9 +510,9 @@
     "id": "quest_0031",
     "text": "Kde berete právo domnívat se, že pravidla, která platí pro běžné smrtelníky, pro vás neplatí?",
     "tags": [
-      "lidská přirozenost",
+      "přirozenost",
       "rozhodování",
-      "paradox"
+      "moudrost"
     ],
     "schemas": [
       "ENTGRAND",
@@ -564,8 +561,8 @@
     "id": "quest_0034",
     "text": "Co se snažíš v sobě přehlušit tím, že se neustále udržuješ v šíleném pracovním tempu a stresu?",
     "tags": [
-      "syndrom vyhoření",
-      "zdravé návyky",
+      "vyhoření",
+      "návyky",
       "emoce"
     ],
     "schemas": [
@@ -581,7 +578,7 @@
     "id": "quest_0035",
     "text": "Kolik tvých rozdělaných projektů ztroskotalo jen na tom, že jsi nedokázal(a) vydržet počáteční nudu a frustraci?",
     "tags": [
-      "trpělivost",
+      "přijetí",
       "produktivita",
       "změna"
     ],
@@ -598,8 +595,8 @@
     "id": "quest_0036",
     "text": "Kdy naposledy jsi vědomě odložil(a) okamžitou slast (mobil, alkohol, cukr) ve prospěch svého dlouhodobého zdraví?",
     "tags": [
-      "zdravé návyky",
-      "seberegulace",
+      "návyky",
+      "zklidnění",
       "hodnoty"
     ],
     "schemas": [
@@ -651,7 +648,7 @@
     "tags": [
       "svoboda",
       "odvaha",
-      "sebeúcta"
+      "sebeláska"
     ],
     "schemas": [
       "SUBJUG",
@@ -683,7 +680,7 @@
     "id": "quest_0041",
     "text": "Sbíráš lajky, pochvaly a uznání zvenčí jen proto, že uvnitř sebe žádné reálné uznání necítíš?",
     "tags": [
-      "sebeúcta",
+      "sebeláska",
       "sebepoznání",
       "motivace"
     ],
@@ -702,7 +699,7 @@
     "tags": [
       "autenticita",
       "samota",
-      "osobnost"
+      "sebepoznání"
     ],
     "schemas": [
       "APPREC",
@@ -717,7 +714,7 @@
     "id": "quest_0043",
     "text": "Jaké tvoje vnitřní kritérium úspěchu je tak přísné, že ho nedokáže splnit žádná lidská bytost na světě?",
     "tags": [
-      "nedokonalost",
+      "přijetí",
       "stres",
       "produktivita"
     ],
@@ -734,7 +731,7 @@
     "id": "quest_0044",
     "text": "Dokážeš mít ze sebe upřímnou radost, aniž bys za tím hned viděl(a) prostor pro další zlepšení?",
     "tags": [
-      "radost",
+      "štěstí",
       "přítomnost",
       "sebeláska"
     ],
@@ -752,7 +749,7 @@
     "text": "Není tvoje neustálá kritičnost vůči chybám druhých lidí jen odleskem toho, jak brutálně terorizuješ sám / sama sebe?",
     "tags": [
       "vztahy",
-      "nedokonalost",
+      "přijetí",
       "stud"
     ],
     "schemas": [
@@ -768,9 +765,9 @@
     "id": "quest_0046",
     "text": "Když vidíš někoho selhat, máš tendenci ho hned odsoudit a potrestat, nebo zkoumáš okolnosti jeho příběhu?",
     "tags": [
-      "odpuštění",
+      "přijetí",
       "moudrost",
-      "lidská přirozenost"
+      "přirozenost"
     ],
     "schemas": [
       "PUNIT",
@@ -786,7 +783,7 @@
     "text": "Jak moc věříš tomu, že každá tvoje chyba musí být krutě potrestána, aby ses stal(a) lepším člověkem?",
     "tags": [
       "vina",
-      "sebeúcta",
+      "sebeláska",
       "změna"
     ],
     "schemas": [
@@ -804,7 +801,7 @@
     "tags": [
       "vnitřní části",
       "rodina",
-      "radost"
+      "štěstí"
     ],
     "schemas": [
       "PUNIT",
@@ -838,7 +835,7 @@
     "tags": [
       "smysl života",
       "strach",
-      "paradox"
+      "moudrost"
     ],
     "schemas": [
       "LACKMEAN",
@@ -853,9 +850,8 @@
     "id": "quest_0051",
     "text": "Co nejmenšího ti dnes udělalo radost, i když tvoje racionální mysl tvrdí, že na ničem nezáleží?",
     "tags": [
-      "vděčnost",
-      "přítomnost",
-      "radost"
+      "štěstí",
+      "přítomnost"
     ],
     "schemas": [
       "LACKMEAN",
@@ -889,7 +885,7 @@
     "tags": [
       "rodina",
       "moudrost",
-      "lidská přirozenost"
+      "přirozenost"
     ],
     "schemas": [
       "UNFAIR",
@@ -905,8 +901,8 @@
     "text": "Dokážeš unést nespravedlivé chování druhých, aniž by ses sám / sama okamžitě uchyloval(a) k intrikám a zlobě?",
     "tags": [
       "hněv",
-      "odolnost",
-      "seberegulace"
+      "odvaha",
+      "zklidnění"
     ],
     "schemas": [
       "UNFAIR",
@@ -922,8 +918,8 @@
     "text": "Kdyby tvůj vnitřní zmatek a chaos byly jen pokusem tvé mysli schovat se před jedním těžkým rozhodnutím, jaké rozhodnutí by to bylo?",
     "tags": [
       "rozhodování",
-      "seberegulace",
-      "pravda"
+      "zklidnění",
+      "autenticita"
     ],
     "schemas": [
       "LACKCOH",
@@ -1006,9 +1002,9 @@
     "id": "quest_0060",
     "text": "Proč je pro tebe bezpečnější projevovat racionální intelekt než prostou, zranitelnou radost z přítomnosti?",
     "tags": [
-      "radost",
+      "štěstí",
       "přítomnost",
-      "osobnost"
+      "sebepoznání"
     ],
     "schemas": [
       "EMOINH",
@@ -1023,7 +1019,7 @@
     "id": "quest_0061",
     "text": "Kolik ze své životní energie dobrovolně obětuješ neustálému očekávání té nejhorší možné varianty vývoje?",
     "tags": [
-      "negativní myšlenky",
+      "myšlenky",
       "deprese",
       "stres"
     ],
@@ -1040,7 +1036,7 @@
     "id": "quest_0062",
     "text": "Kdyby tvoje pesimistická mysl měla na chvíli dovolenou, jakou drobnou naději bys mohl(a) dnes v sobě nechat vyklíčit?",
     "tags": [
-      "naděje",
+      "motivace",
       "přerámování",
       "pozitivní myšlení"
     ],
@@ -1057,7 +1053,7 @@
     "id": "quest_0063",
     "text": "Před jakým zklamáním tě tvůj permanentní skepticismus doopravdy chrání, když tě zároveň odřezává od radosti ze života?",
     "tags": [
-      "paradox",
+      "moudrost",
       "utrpení",
       "sebepoznání"
     ],
