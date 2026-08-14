@@ -43,13 +43,13 @@ Praktický důsledek: dokud jsme v prototypu, ID v JSONech zůstávají. Až se 
 
 ### Jediná verze appky
 
-- **`cesta_kompletni.html` — jediný živý HTML soubor.** Všechny sekce naživo nad daty v `data/`. `MC_BASE="./data/"`. Meta hlavičky pro mobil (viewport, PWA manifest, vypnutá cache) — Mioweb je ignoruje. **Veškerá práce jde sem.**
+- **`cesta.html` — jediný živý HTML soubor.** Všechny sekce naživo nad daty v `data/`. `MC_BASE="./data/"`. Meta hlavičky pro mobil (viewport, PWA manifest, vypnutá cache) — Mioweb je ignoruje. **Veškerá práce jde sem.**
 - **`cesta_prototyp.html`** — **smazaný 14. 8. 2026.** Starší obal pro Mioweb, mrtvá větev. Zůstává v historii gitu.
 - **`cesta_admin.html`** — zastaralý, k přestavbě od základu (viz past č. 1). **Odsunutý do `local/.old/`**, ať neleží vedle živých souborů a nemate.
 
 Appka stojí na **registru sekcí** — jeden `SECTIONS = [...]` řídí dlaždice, menu i router. Nová sekce = výměna rendereru, obal se nesahá.
 
-Na mobilu: `https://haryzek.github.io/cesta/` → rozcestník → „Appka — kompletní" → Chrome „Přidat na plochu".
+Na mobilu: `https://haryzek.github.io/cesta/` → rozcestník → „Moje cesta" → Chrome „Přidat na plochu".
 
 ---
 
@@ -111,7 +111,7 @@ Kdo má co:
 
 ## Design
 
-Nasazený 17. 7. 2026, vznikl v konverzaci s Claude Chat. **Zdroj pravdy je `<style>` blok v `cesta_kompletni.html`** — nic jiného. Původní handoff a mockup jsou překonané: handoff leží jako historie v `local/_design/.old/design-handoff.md`, screeny a mockup `exercise.html` už neexistují a nejsou potřeba, nasazený design je lepší než ony. **Není finální** — základ je odladěný, ale barvy čeká „overhaul do veselejší atmosféry" a karty Přerámování doladění.
+Nasazený 17. 7. 2026, vznikl v konverzaci s Claude Chat. **Zdroj pravdy je `<style>` blok v `cesta.html`** — nic jiného. Původní handoff a mockup jsou překonané: handoff leží jako historie v `local/_design/.old/design-handoff.md`, screeny a mockup `exercise.html` už neexistují a nejsou potřeba, nasazený design je lepší než ony. **Není finální** — základ je odladěný, ale barvy čeká „overhaul do veselejší atmosféry" a karty Přerámování doladění.
 
 **Dvě témata, light + dark.** Přepínač je dole v hamburger menu, volba v `localStorage` (`mc_theme`). Dokud si uživatel nevybere, jede se podle systému. `data-theme` se píše na `#mc-root`, **ne na `<html>`** — uvnitř Miowebu nad ním nemáme kontrolu.
 
@@ -155,7 +155,7 @@ Když sáhneš do těchhle algoritmů, přečti si v README i „proč" — jsou
 
 ## Testování (headless)
 
-**`cesta_kompletni.html`** má `MC_BASE="./data/"`, takže se nic nekopíruje ani nepřepisuje — spusť `python -m http.server 8777` v kořeni a jeď na `http://localhost:8777/cesta_kompletni.html`.
+**`cesta.html`** má `MC_BASE="./data/"`, takže se nic nekopíruje ani nepřepisuje — spusť `python -m http.server 8777` v kořeni a jeď na `http://localhost:8777/cesta.html`.
 
 Router se dá ovládat z konzole: `MC.open("exercises")`, `MC.home()`, `MC.detail(...)` — rychlejší než klikat.
 

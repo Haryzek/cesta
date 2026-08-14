@@ -357,11 +357,11 @@ Reálně používané kódy v datech (21): `ABINST`, `APPREC`, `DEFSH`, `DEPINC`
 
 ## Design a chování UI
 
-Vizuální hodnoty (barvy, fonty) žijí v `<style>` bloku `cesta_kompletni.html`; tady je struktura, chování a design systém.
+Vizuální hodnoty (barvy, fonty) žijí v `<style>` bloku `cesta.html`; tady je struktura, chování a design systém.
 
 ### Design systém
 
-Nasazený 17. 7. 2026. **Zdroj pravdy je `<style>` blok v `cesta_kompletni.html`** — nic jiného. Původní handoff a mockup jsou překonané: handoff leží jako historie v `local/_design/.old/`, screeny a mockup už neexistují a nejsou potřeba. **Není finální** — barvy čeká „overhaul do veselejší atmosféry", karty Přerámování doladění.
+Nasazený 17. 7. 2026. **Zdroj pravdy je `<style>` blok v `cesta.html`** — nic jiného. Původní handoff a mockup jsou překonané: handoff leží jako historie v `local/_design/.old/`, screeny a mockup už neexistují a nejsou potřeba. **Není finální** — barvy čeká „overhaul do veselejší atmosféry", karty Přerámování doladění.
 
 **Dvě témata (light + dark).** Přepínač dole v hamburger menu, volba v `localStorage` (`mc_theme`); dokud si uživatel nevybere, jede se podle systému (`prefers-color-scheme`). `data-theme` se píše na `#mc-root`, ne na `<html>` — uvnitř Miowebu nad ním nemáme kontrolu.
 
@@ -643,7 +643,7 @@ Veškeré výpočty (interleaving, skórování, agregace profilu) jsou nad daty
 | Klastry (116) + pocity (399) | ✅ kompletní mapa s ID a schématy |
 | Technické ověření v Miowebu | ✅ hotovo (duben 2026) |
 | Frontend — obal + registr sekcí | ✅ funkční |
-| Frontend — všechny sekce | ✅ živé v `cesta_kompletni.html` nad všemi 11 JSONy |
+| Frontend — všechny sekce | ✅ živé v `cesta.html` nad všemi 13 JSONy |
 | Spuštění na mobilu | ✅ PWA přes GitHub Pages (červenec 2026) |
 | Design systém (light/dark, Fraunces, tóny sekcí) | ✅ nasazený 17. 7. 2026, základ odladěný |
 | Vizuál — barvy | 🔄 z handoffu, čeká „overhaul do veselejší atmosféry" |
@@ -682,7 +682,7 @@ Appka uživateli **vyká** (UI, perexy, placeholdery). Obsah cvičení a těla j
 ```
 cesta/
 ├── index.html               rozcestník na GitHub Pages
-├── cesta_kompletni.html     ★ aplikace — jediný živý HTML soubor
+├── cesta.html     ★ aplikace — jediný živý HTML soubor
 ├── manifest.json            PWA (spuštění z plochy mobilu)
 ├── tagy.json                kanonický slovník tagů — jediný zdroj pravdy
 ├── data/                    13 datových JSONů (obsah aplikace)
@@ -705,7 +705,7 @@ Dělení jde podle toho, kdo soubor mění: do `data/` se sahá při plnění ob
 
 ### Jediný HTML soubor aplikace
 
-Veškerá práce jde do **`cesta_kompletni.html`** — je to jediná živá verze.
+Veškerá práce jde do **`cesta.html`** — je to jediná živá verze.
 
 Dřív existoval ještě `cesta_prototyp.html`, samostatně vzniklý starší obal pro Mioweb (živé jen Přerámování + Oblíbené, `MC_BASE` na absolutní Pages URL). Byl to fakticky mrtvá větev, design ani obsah se do něj nepromítaly. **Smazán 14. 8. 2026** — zůstává v historii gitu, kdyby bylo potřeba se k němu vrátit.
 
@@ -713,9 +713,9 @@ Aplikace stojí na **registru sekcí** — jeden `SECTIONS = [...]` řídí úvo
 
 ### Spuštění
 
-**Lokálně:** `python -m http.server 8777` v kořeni → `http://localhost:8777/cesta_kompletni.html`. Otevření souboru z disku nefunguje (fetch potřebuje HTTP).
+**Lokálně:** `python -m http.server 8777` v kořeni → `http://localhost:8777/cesta.html`. Otevření souboru z disku nefunguje (fetch potřebuje HTTP).
 
-**Na mobilu:** `https://haryzek.github.io/cesta/` → „Appka — kompletní" → v Chrome „Přidat na plochu". Cache je na HTML i JSONech vypnutá, takže po pushi stačí appku zavřít a znovu otevřít.
+**Na mobilu:** `https://haryzek.github.io/cesta/` → „Moje cesta" → v Chrome „Přidat na plochu". Cache je na HTML i JSONech vypnutá, takže po pushi stačí appku zavřít a znovu otevřít.
 
 Aplikace je **HTML fragment** (bez `<html>`/`<head>`) kvůli vkládání do Miowebu. Meta tagy pro mobil jsou nahoře v souboru — WordPress je ignoruje. Barva pozadí visí na `#mc-root`; při samostatném běhu se `body` obarvuje přes `body:has(> #mc-root)`, což se uvnitř Miowebu (kde je `#mc-root` zanořený ve WP divech) nechytí a pozadí stránky zůstane WordPressu.
 

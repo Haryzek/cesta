@@ -2,7 +2,7 @@
   "name": "Moje cesta",
   "short_name": "Moje cesta",
   "description": "Podívej se na to, co prožíváš, jinak.",
-  "start_url": "cesta_kompletni.html",
+  "start_url": "cesta.html",
   "scope": ".",
   "display": "standalone",
   "orientation": "portrait",

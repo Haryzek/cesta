@@ -56,7 +56,7 @@ podklad, seznam nebo návrh — ale poslední slovo je Bobovo.
 
 ### Provoz
 
-- [ ] **Ověřit embed `cesta_kompletni.html` do Miowebu.** Jediné, co nikdo jiný
+- [ ] **Ověřit embed `cesta.html` do Miowebu.** Jediné, co nikdo jiný
       neotestuje — je potřeba reálná WordPress stránka. Záložní `cesta_prototyp.html`
       už neexistuje (smazán 14. 8. 2026), takže když embed nepůjde, řeší se to
       úpravou kompletní verze, ne návratem ke staré.
