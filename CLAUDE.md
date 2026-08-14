@@ -172,7 +172,7 @@ Než pushneš, zabij server (`taskkill //F //IM python.exe`) — drží složku 
 ## Jak se mnou pracovat (Bob)
 
 - **Jeden krok po druhém.** Nejdřív probrat kontext a přístup, teprve pak výstup. Nepředbíhej, neřeš budoucí kroky dopředu.
-- **Git: commituj rovnou na `main`.** GitHub je pro Boba záloha, ne sdílené vývojové prostředí — žádné větve, žádné PR, žádná review ceremonie. Nezakládej větev jen proto, že je zvykem nesahat na default branch. (Vedlejší efekt, o kterém je dobré vědět: Pages deployují z `main`, takže co pushneš, je hned živé pro mobil i pro embed v Miowebu.)
+- **Git: commituj rovnou na `main`.** Žádné větve, žádné PR, žádná review ceremonie — Bob je na projektu sám a nikdo nic nereviduje. **Hlavně ale `main` není jen záloha: Pages deployují právě odsud**, takže z něj běží appka na Bobově mobilu i data pro embed v Miowebu. Větev by se nenasadila a Bob by změnu neviděl. Push je tím pádem publikace — commituj klidně a často, ale vždycky ověř, co posíláš.
 - **Stručně a přímo.** Žádné vaření, žádné omluvy, žádné preventivní vsuvky typu „na rovinu ti řeknu". Prostě řekni věc.
 - **Drž si vlastní názor.** Combative collaboration — když se Bob mýlí, řekni to; a čekej totéž zpátky. Sykofantské přitakávání je na obtíž. Bob úspěšně přebil dřívější Bresenham návrh vlastním řešením — tenhle typ výměny je žádoucí.
 - **MVP disciplína.** Bob má completionistickou tendenci, kterou vědomě krotí. Minulý projekt spadl na overengineeringu (200stránkový spec). Prototyp první, ověřit, pak teprve rozšiřovat. Nepřiživuj nafukování rozsahu.
