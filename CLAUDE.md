@@ -41,15 +41,13 @@ Praktický důsledek: dokud jsme v prototypu, ID v JSONech zůstávají. Až se 
 
 **Generování obsahu z promptů:** v `local/_prompty/` (nepushuje se) jsou prompty pro tvorbu JSONů — `telesne-priznaky.md`, `cviceni.md`, `clanky.md`. Popisují, jak přetavit libovolný zdroj do naší struktury a hlasu. Vzory jsou reálné pročištěné JSONy. Bob sbírá cvičení/články z různých zdrojů a přes tyhle prompty (v Coworku) je převádíme do struktury. Přerámování, Otázky a Inspirace půjdou z Bobových Excel seznamů, ne přes textové prompty.
 
-### Dvě běžící verze appky
+### Jediná verze appky
 
-Obě v kořeni, obě na Pages, spuštěné vypadají skoro stejně. **Nepleť si je** — Bob si je taky spletl.
-
-- **`cesta_kompletni.html` — hlavní pracovní soubor.** Všechny sekce naživo nad daty v `data/`. `MC_BASE="./data/"`. Meta hlavičky pro mobil (viewport, PWA manifest, vypnutá cache) — Mioweb je ignoruje. **Veškerá práce jde sem.**
-- **`cesta_prototyp.html`** — starší obal pro Mioweb (`MC_BASE` na absolutní Pages URL). Živé jen Přerámování + Oblíbené, zbytek `kind:"placeholder"`. **Mrtvá větev — design ani obsah se do něj nepromítají.** Drží se, dokud se neověří embed kompletní verze do Miowebu.
+- **`cesta_kompletni.html` — jediný živý HTML soubor.** Všechny sekce naživo nad daty v `data/`. `MC_BASE="./data/"`. Meta hlavičky pro mobil (viewport, PWA manifest, vypnutá cache) — Mioweb je ignoruje. **Veškerá práce jde sem.**
+- **`cesta_prototyp.html`** — **smazaný 14. 8. 2026.** Starší obal pro Mioweb, mrtvá větev. Zůstává v historii gitu.
 - **`cesta_admin.html`** — zastaralý, k přestavbě od základu (viz past č. 1). **Odsunutý do `local/.old/`**, ať neleží vedle živých souborů a nemate.
 
-Obě verze sdílí **registr sekcí** — jeden `SECTIONS = [...]` řídí dlaždice, menu i router. Nová sekce = výměna rendereru, obal se nesahá.
+Appka stojí na **registru sekcí** — jeden `SECTIONS = [...]` řídí dlaždice, menu i router. Nová sekce = výměna rendereru, obal se nesahá.
 
 Na mobilu: `https://haryzek.github.io/cesta/` → rozcestník → „Appka — kompletní" → Chrome „Přidat na plochu".
 
@@ -158,8 +156,6 @@ Když sáhneš do těchhle algoritmů, přečti si v README i „proč" — jsou
 ## Testování (headless)
 
 **`cesta_kompletni.html`** má `MC_BASE="./data/"`, takže se nic nekopíruje ani nepřepisuje — spusť `python -m http.server 8777` v kořeni a jeď na `http://localhost:8777/cesta_kompletni.html`.
-
-**`cesta_prototyp.html`** má `MC_BASE` na absolutní Pages URL (kvůli Miowebu), takže pro lokální test buď nech tahat data z Pages, nebo si `MC_BASE` dočasně přepni na `"./data/"`.
 
 Router se dá ovládat z konzole: `MC.open("exercises")`, `MC.home()`, `MC.detail(...)` — rychlejší než klikat.
 

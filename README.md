@@ -682,8 +682,7 @@ Appka uživateli **vyká** (UI, perexy, placeholdery). Obsah cvičení a těla j
 ```
 cesta/
 ├── index.html               rozcestník na GitHub Pages
-├── cesta_kompletni.html     ★ hlavní aplikace — všechny sekce naživo
-├── cesta_prototyp.html      starší obal, umí jen Přerámování + Oblíbené
+├── cesta_kompletni.html     ★ aplikace — jediný živý HTML soubor
 ├── manifest.json            PWA (spuštění z plochy mobilu)
 ├── tagy.json                kanonický slovník tagů — jediný zdroj pravdy
 ├── data/                    13 datových JSONů (obsah aplikace)
@@ -704,19 +703,13 @@ Dělení jde podle toho, kdo soubor mění: do `data/` se sahá při plnění ob
 
 **`cesta_admin.html` je v `local/.old/`**, ne v kořeni. Je zastaralý a rozešel se s datovým modelem, takže by vedle živých souborů jen mátl; k přestavbě od nuly (viz `TODO.md`).
 
-### Dva HTML soubory aplikace
+### Jediný HTML soubor aplikace
 
-Nejsou to varianty téhož souboru, ale dvě samostatně vzniklé verze (liší se v ~1300 řádcích). **Pracuje se na `cesta_kompletni.html`.**
+Veškerá práce jde do **`cesta_kompletni.html`** — je to jediná živá verze.
 
-| | `cesta_kompletni.html` | `cesta_prototyp.html` |
-|---|---|---|
-| Sekce | všechny naživo nad všemi 11 JSONy | jen Přerámování + Oblíbené, zbytek `kind:"placeholder"` |
-| `MC_BASE` | `"./data/"` — relativně | absolutní Pages URL |
-| Mobil | viewport, PWA manifest, vypnutá cache | ne |
+Dřív existoval ještě `cesta_prototyp.html`, samostatně vzniklý starší obal pro Mioweb (živé jen Přerámování + Oblíbené, `MC_BASE` na absolutní Pages URL). Byl to fakticky mrtvá větev, design ani obsah se do něj nepromítaly. **Smazán 14. 8. 2026** — zůstává v historii gitu, kdyby bylo potřeba se k němu vrátit.
 
-Obě sdílí **registr sekcí** — jeden `SECTIONS = [...]` řídí úvodní dlaždice, hamburger menu i router.
-
-Prototyp je fakticky mrtvá větev; jediné, co má navíc, je placeholder slot. Drží se, dokud se neověří embed kompletní verze do Miowebu — pak půjde pryč. **Design ani obsahové změny se do něj nepromítají.**
+Aplikace stojí na **registru sekcí** — jeden `SECTIONS = [...]` řídí úvodní dlaždice, hamburger menu i router. Nová sekce znamená doplnit renderer, obalem se nehýbe.
 
 ### Spuštění
 

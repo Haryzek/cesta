@@ -57,10 +57,9 @@ podklad, seznam nebo návrh — ale poslední slovo je Bobovo.
 ### Provoz
 
 - [ ] **Ověřit embed `cesta_kompletni.html` do Miowebu.** Jediné, co nikdo jiný
-      neotestuje — je potřeba reálná WordPress stránka. Dokud to neproběhne,
-      drží se `cesta_prototyp.html` jako záložní větev.
-- [ ] **Rozhodnout osud `cesta_prototyp.html`.** V pracovním stromu je smazaný,
-      ale necommitnutý. Buď smazat natrvalo (až projde embed výše), nebo vrátit.
+      neotestuje — je potřeba reálná WordPress stránka. Záložní `cesta_prototyp.html`
+      už neexistuje (smazán 14. 8. 2026), takže když embed nepůjde, řeší se to
+      úpravou kompletní verze, ne návratem ke staré.
 
 ### Model dat
 
@@ -100,6 +99,11 @@ Mechanika, nepotřebuje Bobovo rozhodnutí — jen se to musí udělat.
 ## Nedávno vyřízené
 
 Držet krátké — jen věci, na které se bude někdo ptát „a tohle jsme řešili?".
+
+- **14. 8. 2026 — `cesta_prototyp.html` smazán.** Mrtvá větev, Bob ho odstranil
+  z lokálu. Zůstává v historii gitu. Rozcestník `index.html` má nově jedinou
+  kartu — druhý odkaz vedl na smazaný prototyp a třetí na admin přesunutý do
+  `local/.old/`, obojí by po nasazení bylo 404.
 
 - **14. 8. 2026 — Oddíly a řetězy nasazené, model z 11 na 13 souborů.**
   `sections.json` (11 oddílů) a `chains.json` (4 řetězy) jsou v `data/`,
