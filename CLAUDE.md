@@ -41,6 +41,30 @@ Praktický důsledek: dokud jsme v prototypu, ID v JSONech zůstávají. Až se 
 
 **Generování obsahu z promptů:** v `local/_prompty/` (nepushuje se) jsou prompty pro tvorbu JSONů — `telesne-priznaky.md`, `cviceni.md`, `clanky.md`. Popisují, jak přetavit libovolný zdroj do naší struktury a hlasu. Vzory jsou reálné pročištěné JSONy. Bob sbírá cvičení/články z různých zdrojů a přes tyhle prompty (v Coworku) je převádíme do struktury. Přerámování, Otázky a Inspirace půjdou z Bobových Excel seznamů, ne přes textové prompty.
 
+### Zdrojáky obsahu a rebuild — čti dřív, než sáhneš do `data/`
+
+Část obsahu v `data/` **není zdroj, ale výsledek buildu.** Kdo edituje `data/` přímo, tiše odpojí zdroják a při příštím rebuildu o svou opravu přijde.
+
+| co | zdroj pravdy | jak se dostane do `data/` |
+|---|---|---|
+| **cvičení** | 17 dávek `local/data_wip/exercises_wip/cviceni_davky/davka_*.md` | build skriptem, viz níže |
+| **oddíly** | `local/data_wip/sections_wip/sections.json` | kopií |
+| **řetězy** | `local/data_wip/chains_wip/chains.json` | kopií |
+| **články** | `data/articles.json` — **zdroj i výsledek**, žádný build | — |
+| ostatní | `data/*.json` přímo | — |
+
+`sections_wip/_podklad/sec_*.md` jsou **surovina, ze které oddíly kdysi vznikly, ne zdroj pravdy.** Build skript pro ně neexistuje a s JSONem se už rozešly.
+
+**Rebuild cvičení** (z `local/data_wip/exercises_wip/`):
+
+```bash
+python 02_build_exercises.py cviceni_davky exercises.json && python 03_lint_exercises.py exercises.json && cp exercises.json ../../../data/
+```
+
+Lint musí projít na nulu. Kontroluje pole, ID, `sort_order` per oddíl, řetězy, počet schémat (3) a tagy — ty čte z `tagy.json` v kořeni, vlastní kopii seznamu vědomě nedrží. `01_fix_davky.py` je **jednorázová oprava z 14. 8. 2026, znovu ji nespouštěj** — je hotová a její tabulky by přepsaly dnešní stav.
+
+Konzoli si přepni na UTF-8 (`PYTHONIOENCODING=utf-8`), jinak lint spadne na emoji ve výpisu.
+
 ### Jediná verze appky
 
 - **`cesta.html` — jediný živý HTML soubor.** Všechny sekce naživo nad daty v `data/`. `MC_BASE="./data/"`. Meta hlavičky pro mobil (viewport, PWA manifest, vypnutá cache) — Mioweb je ignoruje. **Veškerá práce jde sem.**
@@ -106,6 +130,10 @@ Kdo má co:
 6. **Kroky cvičení stojí na vzoru v datech.** Číslovaný seznam, kde položka začíná `**Tučným titulkem.**` a pod ním odrážky. Renderer z toho dělá kolečko s číslem, titulek a linku — čistě CSS countery nad `<ol>`, datový model se nesahá. **Když se ten vzor v datech poruší, kroky se rozpadnou na obyčejný seznam.** Nejkřehčí místo designu.
 
 7. **Renderer má tři cílené transformace obsahu** (ne berličky — vědomé komponenty): `mc-tel` obarví tónem `**bold**`, který je čistě telefonní číslo (Krizovka). `splitJournal` oddělí závěrečný `## Zápis do deníku` z těla cvičení a vyrenderuje ho jako tealovou journal-card. Markdown parser umí i **víceřádkové položky seznamu** (odsazený řádek pokračuje poslední odrážkou) — kvůli kontaktům s číslem na dalším řádku.
+
+8. **Neupravuj `data/exercises.json` přímo.** Je to výstup buildu ze 17 dávek (viz „Zdrojáky obsahu a rebuild"). Oprava zapsaná do `data/` vypadá, že funguje — a zmizí při prvním rebuildu. Uprav dávku, přebuilduj, prožeň lintem, zkopíruj. Totéž platí pro `data/sections.json` a `data/chains.json`, jen tam je zdrojem JSON v `local/data_wip/`, ne dávky.
+
+9. **Slovník tagů má jednu jedinou kopii — `tagy.json` v kořeni.** Dřív žil ve třech (`local/_tags/*.txt`, SPEC §12, natvrdo v lintu), kopie se rozešly a slovník se kvůli tomu **dvakrát rozjel** — nejdřív u cvičení, pak u článků; konsolidace 14. 8. 2026 srazila 93 tagů na 56. Když budeš potřebovat seznam tagů, načti ho ze souboru. **Nikdy ho nikam neopisuj**, ani do promptu, ani do skriptu.
 
 ---
 
