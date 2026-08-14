@@ -30,12 +30,12 @@ Praktický důsledek: dokud jsme v prototypu, ID v JSONech zůstávají. Až se 
 
 ## Stav
 
-**Struktura všech 11 JSONů je finální.** Obsah ne — plní se. Když něco tvoříš nebo generuješ, drž se přesně stávající struktury.
+**Struktura všech 13 JSONů je finální.** Obsah ne — plní se. Když něco tvoříš nebo generuješ, drž se přesně stávající struktury.
 
 - Klastry (116) + pocity (399): kompletní mapa s ID a schématy ✅
 - Triplet přerámování: testovací fáze, zatím 4 klastry (`cl_0001` neviditelný, `cl_0008` zbytečný, `cl_0013` nedůvěřivý, `cl_0031` špatný)
 - Krizovka (12), Tělesné příznaky (5): obsahově hotové a pročištěné, slouží jako etalon
-- Cvičení (3), Články (6): pročištěné, etalon pro prompty
+- Cvičení (71), Články (112), Oddíly (11), Řetězy (4): nasazené v `data/` (14. 8. 2026). Strukturálně čisté, obsahově neprověřené — viz `TODO.md`.
 - Ostatní obsah: vzorek, plní se
 - Vizuál: nový design systém nasazený (17. 7. 2026), základ odladěný. Karty Přerámování čekají na doladění s Bobem.
 
@@ -45,9 +45,9 @@ Praktický důsledek: dokud jsme v prototypu, ID v JSONech zůstávají. Až se 
 
 Obě v kořeni, obě na Pages, spuštěné vypadají skoro stejně. **Nepleť si je** — Bob si je taky spletl.
 
-- **`cesta_kompletni.html` — hlavní pracovní soubor.** Všechny sekce naživo nad všemi 11 JSONy. `MC_BASE="./data/"`. Meta hlavičky pro mobil (viewport, PWA manifest, vypnutá cache) — Mioweb je ignoruje. Bobovy screeny v `local/_design/Support/` jsou odsud. **Veškerá práce jde sem.**
+- **`cesta_kompletni.html` — hlavní pracovní soubor.** Všechny sekce naživo nad daty v `data/`. `MC_BASE="./data/"`. Meta hlavičky pro mobil (viewport, PWA manifest, vypnutá cache) — Mioweb je ignoruje. **Veškerá práce jde sem.**
 - **`cesta_prototyp.html`** — starší obal pro Mioweb (`MC_BASE` na absolutní Pages URL). Živé jen Přerámování + Oblíbené, zbytek `kind:"placeholder"`. **Mrtvá větev — design ani obsah se do něj nepromítají.** Drží se, dokud se neověří embed kompletní verze do Miowebu.
-- **`cesta_admin.html`** — zastaralý, k přestavbě od základu (viz past č. 1).
+- **`cesta_admin.html`** — zastaralý, k přestavbě od základu (viz past č. 1). **Odsunutý do `local/.old/`**, ať neleží vedle živých souborů a nemate.
 
 Obě verze sdílí **registr sekcí** — jeden `SECTIONS = [...]` řídí dlaždice, menu i router. Nová sekce = výměna rendereru, obal se nesahá.
 
@@ -57,17 +57,17 @@ Na mobilu: `https://haryzek.github.io/cesta/` → rozcestník → „Appka — k
 
 ## Datový model — rychlá orientace
 
-11 souborů. Plný rozpis polí v README. Co musíš mít v hlavě:
+13 souborů. Plný rozpis polí v README. Co musíš mít v hlavě:
 
 - **ID** = permanentní totožnost, formát `prefix_NNNN`, **čtyřmístný** zero-padding (`ref_0001`, ne `ref_001`). Nikdy se nemění, nenese pořadí.
 - **`sort_order`** = pořadí. U tripletu **lokální per cluster** (restart na 1, hustě 1..N bez děr). U plochého obsahu globální v souboru.
 - **`tier`** = `free` nebo `premium`, nikdy nic jiného.
-- **Tagy** vždy lowercase.
+- **Tagy** vždy lowercase a **výhradně z `tagy.json`** v kořeni repa. Nikdy nezakládej druhou kopii seznamu.
 - **`schemas`** = EMS kódy. **Cluster má 5, obsah má 3.** (README kdysi místy mluvil o 5 i u obsahu — to je opravené, reálná data mají u obsahu 3. Drž 3.)
 
-Prefixy ID podle souborů: `cl_`, `feel_`, `crisis_`, `body_`, `art_`, `ex_`, `ref_`, `refq_`, `refa_`, `inspir_`, `quest_`.
+Prefixy ID podle souborů: `cl_`, `feel_`, `crisis_`, `body_`, `art_`, `ex_`, `sec_`, `chain_`, `ref_`, `refq_`, `refa_`, `inspir_`, `quest_`.
 
-Všech 11 JSONů leží v **`data/`** a všechny jsou ploché listy (žádný obalový objekt). Ikony a statické assety v `assets/`.
+Všech 13 JSONů leží v **`data/`** a všechny jsou ploché listy (žádný obalový objekt). Ikony a statické assety v `assets/`.
 
 **Markdown v tělech** appka renderuje vlastním mini-parserem. Umí: `##`/`###`/`####`, `*` i `-` odrážky, `1.` číslované, `**tučně**`, `*kurzíva*`, vnořené odrážky přes odsazení, víceřádkové položky seznamu. **Neumí: odkazy, obrázky, tabulky, kód, citace `>`, vodorovné čáry** — nepiš je do dat, nevykreslí se.
 
@@ -76,7 +76,7 @@ Všech 11 JSONů leží v **`data/`** a všechny jsou ploché listy (žádný ob
 - **crisis** — bloky `##`, odrážky `*`, žádný duplicitní název. Telefonní čísla v `**bold**` (renderer je obarví tónem — viz past č. 7). Kontakty: číslo na samostatném řádku.
 - **body** (Tělesné příznaky) — pevný skelet **7 bloků** (Jak se projevuje / Psychické příčiny / Fyziologické příčiny / Kdy se zhoršuje / Co přináší úlevu / **S čím se to často plete** / Kdy k lékaři). Vzor: text-bloky vs. odrážkové bloky s úvodní větou zakončenou dvojtečkou + `*kurzíva dovětek*`. Blok 6 se jmenuje „S čím se to často plete" (ne „Na co si to lidé pletou").
 - **exercises** — `body` = `## Postup` (+ volitelně `## Příprava`) + `## Zápis do deníku`; `info` = pevných **10 bloků** (Úvod → K čemu → Kdy využít → Jak posílit → Mindset → Na co pozor → Co může bránit → Co mít na paměti → Uvedení do praxe → Co dál?). Kroky postupu = číslovaný seznam, každý krok **tučný titulek + odrážky** (past č. 6).
-- **articles** — souvislý text, **žádné `##` nadpisy** (krátké mikročlánky).
+- **articles** — souvislý text, **žádné `##` nadpisy**. Nejsou to mikročlánky: jsou to zkrácené verze blogových článků, strop 600 slov (u výčtových 750), průměrně ~3 400 znaků. Když se odřízlo víc než 20 % originálu, má článek `show_link: true` a appka pod ním nabídne odkaz na plné znění.
 
 **Odrážky v datech drž jednoúrovňové a markerem `*`** (renderer umí i `-` a vnoření, ale prompty sjednocují na `*` a jednu úroveň).
 
@@ -87,7 +87,7 @@ Všech 11 JSONů leží v **`data/`** a všechny jsou ploché listy (žádný ob
 - **Články** stojí mimo — autorská řeč, kombinace vykání a „my" je tam **záměrná**.
 
 Kdo má co:
-- **`schemas`** mají: clusters (5), articles, exercises, inspirations, questions (3). **Nemají**: feelings, crisis, body, triplet.
+- **`schemas`** mají: clusters (5), articles, exercises, inspirations, questions (3). **Nemají**: feelings, crisis, body, triplet, sections, chains.
 - **datum** má většina (`added_at`); articles má navíc `published_at`. **Nemají**: crisis, body (jsou to malé stabilní sady, které se nebudou rozšiřovat — je to záměr, ne opomenutí).
 - **`cluster_id`** mají: feelings, triplet (ref/refq/refa).
 
@@ -95,7 +95,7 @@ Kdo má co:
 
 ## Pasti (na tyhle si dej pozor)
 
-1. **`cesta_admin.html` je zastaralý a rozešel se s realitou.** Nepoužívej ho jako zdroj pravdy o datovém modelu. Konkrétně: má špatné prefixy (`mic`/`quote`/`q`/`symptoms` místo `art`/`inspir`/`quest`/`body`), třímístný padding místo čtyřmístného, zná jen 9 sekcí a **vůbec nezná `reframing_questions` ani `reframing_actions`**. Vznikl jako rychlý test „projde to do Miowebu", design i data jsou mimo. Bude se přepisovat od nuly. Zdroj pravdy je README + reálné JSONy, ne admin.
+1. **`cesta_admin.html` je zastaralý a rozešel se s realitou.** Leží v `local/.old/`, ne v kořeni. Nepoužívej ho jako zdroj pravdy o datovém modelu. Konkrétně: má špatné prefixy (`mic`/`quote`/`q`/`symptoms` místo `art`/`inspir`/`quest`/`body`), třímístný padding místo čtyřmístného, zná jen 9 sekcí a **vůbec nezná `reframing_questions` ani `reframing_actions`**. Vznikl jako rychlý test „projde to do Miowebu", design i data jsou mimo. Bude se přepisovat od nuly. Zdroj pravdy je README + reálné JSONy, ne admin.
 
 2. **Dva různé GitHub účty v historii.** Aktivní a správné je `haryzek/cesta`. Kdekoli narazíš na `bobrerichacz/stesti_naproti_app` nebo podobné, je to starý/vedlejší pozůstatek — ignoruj, drž `haryzek/cesta`. (Prototyp má v `MC_BASE` správně `haryzek.github.io/cesta/`.)
 
@@ -113,7 +113,7 @@ Kdo má co:
 
 ## Design
 
-Nasazený 17. 7. 2026 podle `local/_design/design-handoff.md` a mockupu `local/_design/Support/exercise.html`. Vznikl v konverzaci s Claude Chat, Bob k němu má screeny v `local/_design/Support/`. **Není finální** — základ je odladěný, ale barvy čeká „overhaul do veselejší atmosféry" a karty Přerámování doladění. Hodnoty žijí v `<style>` bloku `cesta_kompletni.html`, prototyp má pořád staré coconut téma a nesahá se do něj.
+Nasazený 17. 7. 2026, vznikl v konverzaci s Claude Chat. **Zdroj pravdy je `<style>` blok v `cesta_kompletni.html`** — nic jiného. Původní handoff a mockup jsou překonané: handoff leží jako historie v `local/_design/.old/design-handoff.md`, screeny a mockup `exercise.html` už neexistují a nejsou potřeba, nasazený design je lepší než ony. **Není finální** — základ je odladěný, ale barvy čeká „overhaul do veselejší atmosféry" a karty Přerámování doladění.
 
 **Dvě témata, light + dark.** Přepínač je dole v hamburger menu, volba v `localStorage` (`mc_theme`). Dokud si uživatel nevybere, jede se podle systému. `data-theme` se píše na `#mc-root`, **ne na `<html>`** — uvnitř Miowebu nad ním nemáme kontrolu.
 

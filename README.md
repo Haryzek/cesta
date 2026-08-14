@@ -35,15 +35,37 @@ Obě verze jsou technicky tatáž aplikace, liší se pouze rozsahem obsahu. Roz
 
 ## Datový model
 
-Obsah je rozdělený do jedenácti JSON souborů. **Struktura všech souborů je finální a doladěná.** Obsah zatím finální není — plní se postupně (viz Stav níže).
+Obsah je rozdělený do třinácti JSON souborů. **Struktura všech souborů je finální a doladěná.** Obsah zatím finální není — plní se postupně (viz Stav níže).
 
 Napříč všemi soubory platí:
 
 - **ID** je permanentní totožnost položky. Formát `prefix_NNNN` se čtyřmístným zero-paddingem (např. `ref_0001`). ID se nikdy nemění a nenese žádnou informaci o pořadí. V ostré verzi ho přiděluje admin při vytvoření položky.
 - **`sort_order`** určuje pořadí. U tripletu přerámování je lokální v rámci clusteru (restartuje na 1, hustě 1..N bez děr). U plochých typů obsahu je globální v rámci souboru.
 - **`tier`** je vždy `free` nebo `premium`.
-- **Tagy** jsou vždy lowercase.
-- **`schemas`** nese kódy Youngových schémat (viz EMS model níže). U clusterů je jich pět, u obsahu tři.
+- **Tagy** jsou vždy lowercase a berou se **výhradně** z `tagy.json` v kořeni repa — viz Tagy níže.
+- **`schemas`** nese kódy Youngových schémat (viz EMS model níže), **seřazené podle priority**. U clusterů je jich pět, u obsahu tři — a není to nedůslednost, ale rozdíl rolí:
+  - **Cluster je zdroj profilu.** Kliknutí na pocit nasype váhu do všech pěti schémat (5,4,3,2,1), takže se čte i pátá pozice. Pět je tam potřeba.
+  - **Obsah je cíl, který se skóruje.** Doporučovadlo čte jen pozice 1–2, třetí je zdokumentovaná rezerva pro případné rozšíření na 1–3. Pozice 4–5 by nečetlo nic — ani dnes, ani po plánovaném rozšíření.
+
+  Nenafukuj počet u obsahu. Měření nad reálnými daty (14. 8. 2026) ukázalo, že pozice 4–5 nenesou informaci, ale výplň: u cvičení seděl na páté pozici 18× USHYPER, u clusterů 23× DEFSH — generátor plnil prázdný slot generickým kódem. Nutit model k pěti tvrzením tam, kde jsou obhajitelná dvě, navíc ředí kvalitu prvních dvou pozic. Cvičení a články se proto 14. 8. 2026 ořezaly z 5 na 3; pozice 1–2 se nezměnily ani u jedné položky, takže výstup doporučovadla je identický.
+
+### Tagy — `tagy.json`
+
+Kanonický slovník tagů leží v **`tagy.json` v kořeni repa a je jediný zdroj pravdy**. Není to obsahový soubor, na Pages se nevozí — slouží autorské práci a lintům. Obsahuje plochý seznam platných tagů, jejich rozdělení do skupin (jen pro orientaci a barvy ve filtru, **nejsou to kategorie v JSONu**) a mapu `slouceno` se zaniklými názvy a jejich náhradami.
+
+**Slovník je společný pro celou appku** — články, cvičení, inspirace i podnětné otázky sdílejí jednu sadu. Tag je pro uživatele téma, ne vlastnost obsahového typu; oddělené slovníky per typ vedly k tomu, že stejná věc měla různá jména (`expozice` u cvičení vs. `expozice strachu` u článků) a uživatel ji přes sekce nenašel.
+
+Prázdné volby to nedělá, protože **filtr nabízí jen tagy, které jsou v dané sekci reálně použité** — staví se z dat (`allTags(dataKey)`), ne ze slovníku.
+
+Pravidla:
+
+- Vždy lowercase.
+- **Terapeutický směr do tagů nepatří** (KBT, IFS, focusing, behaviorální experiment, somatic experiencing). Tagujeme, k čemu obsah je a co se při něm dělá, ne jakou školou je inspirovaný. Až bude potřeba filtrovat podle směru, dostane vlastní pole.
+- **Nový tag se nezavádí při psaní obsahu** — nejdřív se přidá do `tagy.json`, teprve pak se smí použít.
+- Tag s jediným výskytem v datech je podezřelý — buď se sloučí, nebo se doplní obsah.
+- **Nikde nezakládej druhou kopii seznamu.** Slovník existoval ve třech kopiích (`local/_tags/*.txt`, SPEC §12, natvrdo v lintu), kopie se rozešly a slovník se kvůli tomu dvakrát rozjel — u cvičení a pak u článků. Konsolidace 14. 8. 2026 srazila 93 rozjetých tagů na 56 a všechny kopie zrušila.
+
+Trvání a náročnost **nejsou tagy** — filtr si je odvozuje z polí `duration` a `difficulty`.
 
 ### 1. Klastry — `clusters.json`
 
@@ -110,15 +132,21 @@ Tělo markdownu má **pevný skelet 7 bloků** (`##`): Jak se projevuje / Psychi
 }
 ```
 
-### 5. Mikročlánky — `articles.json`
+### 5. Články — `articles.json`
 
-Miniaturizované verze blogových článků, 1–5 minut čtení. Tělo v markdownu.
+Zkrácené verze blogových článků ze stestinaproti.cz, 1–5 minut čtení. Tělo v markdownu, souvislý text **bez `##` nadpisů** — čte se jako jedna plynulá úvaha, ne jako segmentovaný dokument.
+
+Krácení řídí prompt `local/_prompty/clanky_kraceni_prompt.md`: originál do 600 slov se nekrátí vůbec, delší se krátí na 600 slov (u výčtových článků nad 1800 slov na 750). Dřívější označení „mikročlánky" už neodpovídá — reálná sada má 112 článků o průměrné délce ~3 400 znaků.
 
 - **`schemas`** — tři schémata podle priority (váhy 3, 2, 1), slouží doporučování.
 - **`reading_time`** — v ostré verzi ho počítá admin z délky textu.
 - **`quality`** — kvalita/užitečnost na škále 1–5 (pětky se zobrazují v záložce „Redakce").
 - **`slug`** — v ostré verzi ho admin generuje z titulku.
 - **`published_at`** vs **`added_at`** — datum původního vydání článku vs. datum přidání do aplikace (dvě různá data).
+- **`source_url`** — adresa původního článku na blogu. Vyplňuje se **vždy**, nezávisle na `show_link`.
+- **`show_link`** — jestli se pod článkem nabídne odkaz na plné znění. **Neznamená „máme URL"** (tu má každý článek), ale **„tenhle text je podstatně osekaný"**. Pravidlo pochází z krátícího promptu (`local/_prompty/clanky_kraceni_prompt.md`): originál do 600 slov se nekrátí vůbec → `false`; delší se krátí na 600 slov (u výčtových článků nad 1800 slov na 750) a pokud se odřízlo víc než 20 % původního textu → `true`. Aktuálně 71 článků ze 112 má `true`.
+
+  Renderer vykreslí pod tělem tichý řádek **„Celý článek na blogu"** s odkazem, otevře se v novém panelu. Odkaz staví renderer jako UI prvek, **ne markdown** — parser odkazy neumí a do těl se zásadně nepíšou. Podmínka na `https://` v `source_url` je pojistka proti čemukoli, co není webová adresa. Platí i v Oblíbených, protože detail sází stejná funkce.
 
 ```json
 {
@@ -127,6 +155,8 @@ Miniaturizované verze blogových článků, 1–5 minut čtení. Tělo v markdo
   "slug": "proc-se-bojime-blizkosti",
   "perex": "Krátký úvodní text pro seznam...",
   "body": "Markdown tělo článku...",
+  "source_url": "https://stestinaproti.cz/proc-se-bojime-blizkosti/",
+  "show_link": true,
   "tags": ["úzkost", "vztahy"],
   "schemas": ["EMODEP", "ABINST", "DEFSH"],
   "tier": "free",
@@ -145,26 +175,98 @@ Hyperstručná cvičení napříč terapeutickými směry. Ve výchozím zobraze
 - **`duration`** — délka v minutách.
 - **`schemas`** — tři schémata podle priority.
 - **`quality`** — 1–5.
-- Tagy jsou v aplikaci rozdělené do kategorií (Typy potíží, Uvolnění a zklidnění, Práce s myšlenkami, Behaviorální práce, Vnitřní prožívání, Práce s tělem, Produktivita, Vztahy a komunikace, Životní styl, Spokojenost a štěstí).
+- Tagy se berou z `tagy.json` (viz Tagy níže), skupiny pro barevné odlišení ve filtru jsou tam taky.
 
 ```json
 {
   "id": "ex_0001",
-  "name": "Body scan",
+  "section_id": "sec_0004",
+  "chain_id": null,
+  "chain_order": null,
+  "name": "Jednoduché řízené dýchání",
   "perex": "Krátký popis cvičení.",
+  "body": "## Markdown: Než začneme, Postup, Co mít na paměti",
   "info": "## Markdown: k čemu, mindset, bariéry",
-  "body": "## Markdown: postup, kroky",
-  "duration": 15,
-  "tags": ["mindfulness", "tělesná cvičení"],
-  "schemas": ["EMODEP", "ABINST", "DEFSH"],
+  "info_extra": null,
+  "theory": null,
+  "theory_extra": null,
+  "practice": null,
+  "diary_exercise": "* Otázky do deníku…",
+  "attachments": [],
+  "duration": 5,
+  "frequency": "podle potřeby",
+  "training_period": null,
+  "difficulty": "nízká",
+  "warning": null,
+  "tags": ["dýchání", "zklidnění"],
+  "schemas": ["VULILL", "NEGPES", "EMOINH"],
   "tier": "free",
-  "quality": 5,
+  "quality": 3,
   "sort_order": 1,
-  "added_at": "2026-04-02"
+  "added_at": "2026-08-13"
 }
 ```
 
-### 7. Triplet přerámování — `reframings.json`, `reframing_questions.json`, `reframing_actions.json`
+#### Řazení cvičení
+
+`sort_order` udává pořadí cvičení **v rámci jeho oddílu**, počítáno od 1. Není unikátní napříč souborem — v každém oddílu začíná znovu jedničkou.
+
+Seznam cvičení uvnitř jednoho oddílu se proto řadí podle `sort_order`. Seznamy, které míchají cvičení z různých oddílů (filtr podle tagů, výsledky hledání, oblíbené), se podle `sort_order` řadit nedají — dostaly by se vedle sebe samé jedničky. Tam se řadí podle `id`, které odpovídá pořadí cvičení v cvičebnici a je unikátní.
+
+Z toho plyne pravidlo pro nový obsah: **`id` nese globální pořadí, `sort_order` pořadí v oddílu.** Cvičení přidané mimo cvičebnici dostane nejbližší volné `id` (`ex_0072` a dál) a `sort_order` podle toho, kam v oddílu patří — ostatní cvičení v tom oddílu se přečíslují, cvičení v ostatních oddílech se nedotknou.
+
+Globální `sort_order` byl zvážen a **zamítnut**: byl by duplicitou k `id` a rozbil by se na prvním novém cvičení vloženém doprostřed oddílu.
+
+### 7. Oddíly — `sections.json`
+
+Jedenáct oddílů, do kterých jsou cvičení rozdělená. Slouží plánované sekci **„Moje cesta"**: uživatel vidí seznam oddílů a po rozkliknutí stránku se submenu **Cvičení / Info / Teorie / Praxe** (výchozí Teorie). Tab se kreslí jen tehdy, když má obsah; když zbyde jediný, nekreslí se vůbec.
+
+- **`perex`** — jedna věta, co oddíl nabízí. Zobrazí se v seznamu oddílů.
+- **`info`**, **`theory`**, **`practice`** — markdown pro jednotlivé taby submenu.
+- **`diary_exercise`** — otázky do deníku společné **všem cvičením oddílu**. V rendereru se slepí s `exercise.diary_exercise` do jednoho bloku na konci cvičení, nejdřív oddílové, pak cvičební. Proto se do jednotlivých cvičení **nekopírují** — cvičení má `null`, když mu stačí oddílové.
+- **`diary_practice`** — otázky do deníku pro tab Praxe. S ničím se neslepuje.
+
+**Oddíly `sec_0001`–`sec_0003`** (Před cestou, Odborná pomoc, Životní styl) nemají žádná cvičení — jen souvislý text v `theory`, ostatní pole `null`. Zobrazují se jako samostatná textová stránka.
+
+```json
+{
+  "id": "sec_0004",
+  "title": "Relaxace a pocit bezpečí",
+  "perex": "Jedna věta, co oddíl nabízí.",
+  "info": "## Markdown pro tab Info",
+  "theory": "## Markdown pro tab Teorie",
+  "practice": "## Markdown pro tab Praxe",
+  "diary_exercise": "* Otázky společné všem cvičením oddílu",
+  "diary_practice": "* Otázky do deníku v tabu Praxe",
+  "sort_order": 4
+}
+```
+
+### 8. Řetězy — `chains.json`
+
+Řetěz je sada cvičení s logickou návazností, kterou je doporučeno absolvovat popořadě. **V budoucnu z řetězů budou cesty ke zvládnutí.** Do řetězu patří jen část cvičení oddílu; každé má pevné místo dané polem `chain_order` na cvičení.
+
+V první verzi appky nese řetěz jen upozornění na stránce cvičení: badge s pořadím („2/5 — Cvičení je součástí řetězu") a doporučení začít od začátku. Po rozkliknutí se zobrazí název řetězu a seznam všech jeho cvičení s proklikem. Badge je **jediný nosič návaznosti** — žádné odkazy na první článek řetězu v textu, žádné pole `basics_ref` (zvažováno a zamítnuto). Řetězové cvičení smí v „Než začneme" jednou větou říct, na čem staví, ale bez prokliku.
+
+| ID | title | section_id | cvičení |
+|---|---|---|---|
+| chain_0001 | Nácvik aplikované relaxace | sec_0004 | ex_0013–ex_0018 |
+| chain_0002 | Přerámování myšlenek | sec_0006 | ex_0030–ex_0033 |
+| chain_0003 | Expoziční terapie | sec_0008 | ex_0051–ex_0056 |
+| chain_0004 | Spojení s tělem a vnitřními částmi | sec_0009 | ex_0059–ex_0063 |
+
+`chain_0004` pokrývá celý oddíl 09 a jmenuje se stejně jako on. Je to v pořádku, jen se nesmí zaměnit oddíl a řetěz.
+
+```json
+{
+  "id": "chain_0001",
+  "section_id": "sec_0004",
+  "title": "Nácvik aplikované relaxace",
+  "sort_order": 1
+}
+```
+
+### 9. Triplet přerámování — `reframings.json`, `reframing_questions.json`, `reframing_actions.json`
 
 Tři seznamy navázané vždy na jeden konkrétní klastr (ne na jednotlivý pocit). Nejsou sdílené napříč klastry — každý klastr má svůj vlastní triplet. V aplikaci mezi nimi uživatel přepíná horizontálním submenu.
 
@@ -189,7 +291,7 @@ Tři seznamy navázané vždy na jeden konkrétní klastr (ne na jednotlivý poc
 
 7b i 7c mají stejnou strukturu jako 7a (`id`, `cluster_id`, `text`, `tier`, `sort_order`, `added_at`).
 
-### 8. Inspirace — `inspirations.json`
+### 10. Inspirace — `inspirations.json`
 
 Citáty, rady, moudra.
 
@@ -207,7 +309,7 @@ Citáty, rady, moudra.
 }
 ```
 
-### 9. Podnětné otázky — `questions.json`
+### 11. Podnětné otázky — `questions.json`
 
 Otázky k sebereflexi. Sdílí sadu tagů s inspiracemi.
 
@@ -259,7 +361,7 @@ Vizuální hodnoty (barvy, fonty) žijí v `<style>` bloku `cesta_kompletni.html
 
 ### Design systém
 
-Nasazený 17. 7. 2026 podle `local/_design/design-handoff.md` a mockupu `local/_design/Support/exercise.html`. **Není finální** — barvy čeká „overhaul do veselejší atmosféry", karty Přerámování doladění.
+Nasazený 17. 7. 2026. **Zdroj pravdy je `<style>` blok v `cesta_kompletni.html`** — nic jiného. Původní handoff a mockup jsou překonané: handoff leží jako historie v `local/_design/.old/`, screeny a mockup už neexistují a nejsou potřeba. **Není finální** — barvy čeká „overhaul do veselejší atmosféry", karty Přerámování doladění.
 
 **Dvě témata (light + dark).** Přepínač dole v hamburger menu, volba v `localStorage` (`mc_theme`); dokud si uživatel nevybere, jede se podle systému (`prefers-color-scheme`). `data-theme` se píše na `#mc-root`, ne na `<html>` — uvnitř Miowebu nad ním nemáme kontrolu.
 
@@ -556,30 +658,22 @@ Reálná čísla obsahu (testovací fáze): triplet pokrývá 4 klastry — `cl_
 
 ---
 
-## Otevřené otázky
+## Poznámky k obsahu
 
-Věci, které visí ve vzduchu a čekají na rozhodnutí. **Většina se netýká kódu, ale dat a promptů**, kterými se obsah generuje.
-
-### Dvě berličky v rendereru
-
-Obě fungují a maskují nekonzistenci v datech. Až se data pročistí, můžou jít pryč — ale je rozumné nechat je jako pojistku.
-
-- **`stripDupHeading`** zahazuje první nadpis, když se shoduje s názvem položky. Tělo ho má ve všech položkách, Cvičení taky (v `body` i `info`), Krizovka ne.
-- **`pullDuration`** vytahuje z těla cvičení řádek `**Trvání:** …` do duration stripu, protože si data protiřečí: pole `duration: 10`, ale text „průběžně po dobu 1–2 týdnů".
+Nevyřízené úkoly a otevřená rozhodnutí **nejsou tady — jsou v `TODO.md`** v kořeni repa.
+Tenhle dokument popisuje, jak věci jsou; `TODO.md`, co se má stát.
 
 ### Stav pročištění obsahu (18. 7. 2026)
 
 crisis, body, exercises i articles jsou **pročištěné a naformátované** — slouží jako etalon pro prompty v `local/_prompty/`. Duplicitní názvy pryč, cvičení má bloky `##`, tělo pevný skelet 7 bloků, telefonní čísla v krizovce v `**bold**` (renderer je obarví tónem). Formátovací pravidla jednotlivých sekcí drží ty prompty, ne tento dokument.
 
-### K rozhodnutí (otevřené)
-
-- **Celková doba a frekvence cvičení.** `duration` zůstává číslo = jedna performance (banner). Celková doba praktikování a frekvence (např. „průběžně 1–2 týdny") čeká na **rozšíření datového modelu** — samostatná volitelná pole, Bob dořeší později. Zatím žije v textu Info (blok „Uvedení do praxe").
-- **Telefonní čísla nejsou klikací** — markdown v appce neumí odkazy. V krizi je to škoda; šlo by doplnit automatickou detekci čísel do `tel:` odkazů.
-- **6 stávajících článků** míchá vykání a „my" — u článků je to **záměrné** (autorská řeč), takže OK; jen ať to nová verze drží citem, ne mechanicky.
-
 ### Odrážkové pravidlo (Bobovo, odvozené z krizovky)
 
 Popis a vysvětlení = souvislý text. Akce, výčty a příznaky = odrážky. Úvodní věta bloku = bez odrážky (končí dvojtečkou, ať za ní fragmenty gramaticky sednou). Dovětek na konci = bez odrážky, kurzívou. Kontakty = bez odrážek, číslo na samostatném řádku. Odrážky jednoúrovňové, marker `*`, bez koncových teček.
+
+### Hlas obsahu
+
+Appka uživateli **vyká** (UI, perexy, placeholdery). Obsah cvičení a těla je v **„my"** — společná cesta, nepřikazujeme. Deník je v **ich-formě** („Jak jsem se cítil/a?"). Články stojí mimo: autorská řeč, kombinace vykání a „my" je tam **záměrná**.
 
 ---
 
@@ -590,17 +684,25 @@ cesta/
 ├── index.html               rozcestník na GitHub Pages
 ├── cesta_kompletni.html     ★ hlavní aplikace — všechny sekce naživo
 ├── cesta_prototyp.html      starší obal, umí jen Přerámování + Oblíbené
-├── cesta_admin.html         admin — zastaralý, k přestavbě
 ├── manifest.json            PWA (spuštění z plochy mobilu)
-├── data/                    11 datových JSONů
+├── tagy.json                kanonický slovník tagů — jediný zdroj pravdy
+├── data/                    13 datových JSONů (obsah aplikace)
 ├── assets/                  ikony
-├── README.md                tento dokument
+├── README.md                tento dokument — jak věci JSOU
+├── TODO.md                  co se má stát (dělené podle toho, kdo to utáhne)
 ├── CLAUDE.md                pracovní brífink pro Claude Code
 ├── _scratch/                hrací písek (mimo git)
-└── local/                   osobní podklady, screeny, design (mimo git)
+└── local/                   osobní podklady a rozpracovaná data (mimo git)
+    ├── data_wip/            zdrojáky obsahu před nasazením do data/
+    ├── _prompty/            prompty pro generování obsahu
+    ├── _design/             podklady k designu
+    ├── .backups/            ruční snapshoty
+    └── .old/                překonané soubory včetně cesta_admin.html
 ```
 
-Dělení jde podle toho, kdo soubor mění: do `data/` se sahá při plnění obsahu, do `assets/` skoro nikdy. `manifest.json` je konfigurace aplikace, ne obsah — proto zůstává v kořeni, kde ho čekají prohlížeče.
+Dělení jde podle toho, kdo soubor mění: do `data/` se sahá při plnění obsahu, do `assets/` skoro nikdy. `manifest.json` je konfigurace aplikace, ne obsah — proto zůstává v kořeni, kde ho čekají prohlížeče. `tagy.json` v kořeni je autorský nástroj, ne obsah — na Pages se nevozí.
+
+**`cesta_admin.html` je v `local/.old/`**, ne v kořeni. Je zastaralý a rozešel se s datovým modelem, takže by vedle živých souborů jen mátl; k přestavbě od nuly (viz `TODO.md`).
 
 ### Dva HTML soubory aplikace
 
@@ -623,3 +725,23 @@ Prototyp je fakticky mrtvá větev; jediné, co má navíc, je placeholder slot.
 **Na mobilu:** `https://haryzek.github.io/cesta/` → „Appka — kompletní" → v Chrome „Přidat na plochu". Cache je na HTML i JSONech vypnutá, takže po pushi stačí appku zavřít a znovu otevřít.
 
 Aplikace je **HTML fragment** (bez `<html>`/`<head>`) kvůli vkládání do Miowebu. Meta tagy pro mobil jsou nahoře v souboru — WordPress je ignoruje. Barva pozadí visí na `#mc-root`; při samostatném běhu se `body` obarvuje přes `body:has(> #mc-root)`, což se uvnitř Miowebu (kde je `#mc-root` zanořený ve WP divech) nechytí a pozadí stránky zůstane WordPressu.
+
+
+## Poznámky frontend
+
+### Řazení cvičení
+
+`sort_order` udává pořadí cvičení **v rámci jeho oddílu**, počítáno od 1.
+Není unikátní napříč souborem — v každém oddílu začíná znovu jedničkou.
+
+Seznam cvičení uvnitř jednoho oddílu se proto řadí podle `sort_order`.
+
+Seznamy, které míchají cvičení z různých oddílů (filtr podle tagů, výsledky
+hledání, oblíbené), se podle `sort_order` řadit nedají — dostaly by se vedle
+sebe samé jedničky. Tam se řadí podle `id`, které odpovídá pořadí cvičení
+v cvičebnici a je unikátní.
+
+Z toho plyne pravidlo pro nový obsah: **`id` nese globální pořadí, `sort_order`
+pořadí v oddílu.** Cvičení přidané mimo cvičebnici dostane nejbližší volné `id`
+(ex_0072 a dál) a `sort_order` podle toho, kam v oddílu patří — ostatní cvičení
+v tom oddílu se přečíslují, cvičení v ostatních oddílech se nedotknou.
