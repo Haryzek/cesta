@@ -1,0 +1,26 @@
+[
+  {
+    "id": "chain_0001",
+    "section_id": "sec_0004",
+    "title": "Nácvik aplikované relaxace",
+    "sort_order": 1
+  },
+  {
+    "id": "chain_0002",
+    "section_id": "sec_0006",
+    "title": "Přerámování myšlenek",
+    "sort_order": 2
+  },
+  {
+    "id": "chain_0003",
+    "section_id": "sec_0008",
+    "title": "Expoziční terapie",
+    "sort_order": 3
+  },
+  {
+    "id": "chain_0004",
+    "section_id": "sec_0009",
+    "title": "Spojení s tělem a vnitřními částmi",
+    "sort_order": 4
+  }
+]
