@@ -29,6 +29,14 @@ podklad, seznam nebo návrh — ale poslední slovo je Bobovo.
       musí Bob.
 - [ ] **Zadat, jestli projet perexy článků.** U cvičení se to udělalo (8 přepsaných
       z 71). U 112 článků se perexy zatím nikdo nedíval stejným metrem.
+- [ ] **Pročistit sklizeň hloubavek.** 193 otázek v samomluvě čeká
+      v `local/data_wip/questions_wip/sklizen.json` (sklizeno 25. 8. 2026).
+      Po Bobově čištění Claude: tagy ex post z `tagy.json`, konverze do nového
+      `questions.json` bez `schemas`, skartace starých 63 schema-otázek.
+- [ ] **Pročistit sklizeň citátů.** Sklizeň ~200 běží od 26. 8. 2026
+      (prompt `local/_prompty/citaty.md`, cíl `local/data_wip/inspirations_wip/`).
+      Po Bobově čištění stejná linka: tagy ex post, konverze, append do
+      `inspirations.json` (`author` smí být `null`, `schemas` se zatím neplní).
 
 ### Schémata
 
@@ -74,6 +82,123 @@ podklad, seznam nebo návrh — ale poslední slovo je Bobovo.
 
 Potřebuje domluvu, pak už to Claude dotáhne.
 
+- [ ] **Bolístky — situační vstupní vrstva (nápad 26. 8. 2026, čeká na domluvu
+      o finálním tvaru).** Vstup do přerámování přes konkrétní běžné trápení
+      („výčitky, že nemám děti / školu / necestuju / nestíhám") místo
+      sebediagnózy pocitu. **Rýsující se tvar (26. 8. 2026 večer, není final):**
+      dvoupatrový model — TOP 100–200 bolístek dostane **3–5 krátkých úderných
+      přerámování („hlášky")** + `feeling_ids`; zbytek přeživších (~300+) žije
+      jako vstupní zrcadlo jen s mostem na jádrové pocity (u klastrové sady
+      mapování už existuje) a slouží zároveň jako **zásobník pro budoucí
+      obsah**. Vyhazuje se jen balast a překryvy (odhad 50–70 z 530).
+      *Otevřená otázka hlasu:* hlášky budou úderné a hovorovější než zdvořilý
+      triplet (bolístka je nespisovná — odpověď v bílých rukavičkách by vedle
+      ní zněla úředně). Byl by to čtvrtý hlas appky — rozhodnout vědomě,
+      kalibrovat na vzorku.
+      **Žánry hlášek (z přestřelky 27. 8. 2026)** — u každé bolístky míchat
+      dva hlasy (břitký kámoš + laskavý dospělý) a čerpat z žánrů: rozbití
+      věštby · zmenšení otázky · převrácení metru/porovnání · konkretizace
+      („kdo přesně? co přesně?") · normalizace faktem · dovolení („nemusíš…")
+      · hodnotový reframe („není povinnost") · mindfulness kotva („zastav se
+      a všimni si") · černý humor · podnětná otázka · praktický krok.
+      Tvrdé pravidlo: žádné vymyšlené statistiky a čísla.
+      **Deduplikační pas po fabrice (rozhodnuto 27. 8. 2026):** poměr
+      soucitných vs. břitkých je zdravý (~60:30, neměnit prompt), ale napříč
+      bolístkami se opakují šablony — hlavně „Starý kovboj by řekl…" (+ koňské
+      metafory: otěže, napajedlo, sedlo) skoro v každé bolístce, a vzorec
+      „X je jediný sport, kde…". Až fabrika doběhne, projet všechny dávky,
+      identifikovat opakovačky a provést náhrady (mořský vlk apod.) anebo
+      atribuci úplně vypustit. Kovbojské hlášky samotné zůstávají — jsou dobré,
+      řeší se jen hustota stejné figury.
+      **UI vize (odsouhlaseno jako směr):** žádná nová dlaždice — vstup do
+      sekce Přerámování se přestaví na rozcestník tří dveří („Co právě cítím"
+      / „Co mě žere" / „Čeho se bojím"), s krátkým návodem „párkrát se zeptej
+      proč". Bolístky: kategorie (6–8 lidských šuplíků) → scrollovací seznam
+      syrových vět (seznam sám je zrcadlo — bez ikon a ilustrací) → detail
+      s hláškami + „Pod tímhle často bývá…" chips pocitů → klastrový triplet.
+      Scroll po dávkách s hláškou typu „Chceš další, nebo už toho máš plný
+      zuby?"; řazení od nejčastějších v každé kategorii. Patro 2 se pozná jen
+      tím, že detail začíná rovnou mostem.
+      Materiál: `local/data_wip/bolistky_wip/` — prestrelka.json (51),
+      sklizen.json (115), sklizen_klastry.json (364, s cluster_id).
+      **Definice rozšířena na tři směry stesku** (26. 8. 2026): na sebe ·
+      na blízké a vztahy („Manželka mě sere.") · na svět a dobu („Ten dnešní
+      svět stojí za hovno." — mantinel: politické kauzy ne). Zaměření na
+      dnešní svět (feed, kult produktivity, mobily, nájmy); formulace syrově,
+      řečí od kafe. Prompt sklizně: `local/_prompty/bolistky.md` (obsahuje
+      i 51 už nalezených uhlíků z Bobovy a oslí přestřelky 26. 8. 2026).
+      **Druhá, samostatná sada:** vygenerovat 1–5 konkrétních živých bolístek
+      z každého ze 116 klastrů (opačný směr — zdola z psychiky; dvě sítě,
+      průnik = nejžhavější uhlíky). Pozor na klinický jazyk, platí test
+      „u kafe". Pak obě sady sloučit, pročistit, rozhodnout další postup.
+      Žádné otázky/úkoly k bolístkám — tenká slupka, hloubku dodá klastr.
+      Skica dat: `bolistky.json` + `bolistky_reframings.json` (scoped per
+      bolístka, lokální `sort_order`), model by narostl ze 13 na 15 souborů.
+      Bobův cíl: ~50 bolístek, seřazených podle četnosti v reálném životě
+      (první várka podle toho, co se vyprodukuje). Nestavět, dokud Bob nedá gou
+      na finální tvar.
+      **Rozlišovací pravidlo bolístka vs. strach:** bolístka je hodnotící a bolí
+      teď („Nemám X / Nejsem dost Y / Nestíhám / Měl bych" — deficit poměřovaný
+      s očekáváním a druhými, kulturní superego); strach míří do budoucnosti
+      („bojím se, že…") a patří do strachové brány níže. Zdroj kandidátů:
+      Bobova monster tabulka `C:\Users\bobre\Desktop\tab.xlsx` (rodina „Bez X"
+      ve sloupci Strachy, sebehodnotící kusy z Běžných strachů) + kontrolní
+      síto přes sloupec Existenciální potřeby (25) na díry v pokrytí.
+      Nástřel ~30 kandidátů padl v konverzaci 26. 8. 2026 (rodina a vztahy /
+      výkon a kariéra / životní bilance / já a tělo / život teď).
+- [ ] **ČTYŘI VSTUPNÍ BRÁNY do Přerámování (rozhodnuto 27. 8. 2026).**
+      1. Jádrové pocity (s krátkým návodem) · 2. Strachy · 3. Test — osobní
+      sebehodnotící výroky à la YSQ · 4. Bolístky (stížnosti a konstatování).
+      Dělící čára 3 vs. 4: výrok průhledně mluvící jedno vnitřní nastavení
+      = brána 3; konstatování reality „naslepo", kde schéma pod tím může být
+      různé (i výrok o sobě typu „Pořád sedím u počítače.") = brána 4.
+      Materiál rozdělen 27. 8. 2026: `bolistky_wip/brana4_bolistky.json` (177:
+      103 na sebe / 44 na blízké / 30 na svět) + `brana3_test_vyroky.json`
+      (334, z toho 322 s cluster_id — skórování testu zadarmo přes klastr →
+      schémata) + `kos.json` (19, s důvody). Jazyk sjednocen na spisovně-lidový
+      (cílovka: převážně zralé ženy).
+- [ ] **Brána 3 — test à la YSQ (rozhodnuto 27. 8. 2026, stavět po bolístkách).**
+      Ne diagnostika — jasně popsat jako inspiraci, hrubé načrtnutí vnitřních
+      citlivostí. UI: scrollování výroků, odpověď „Spíše ano / Spíše ne",
+      ukazovat % zodpovězeného balíku („čím víc odpovíš, tím lépe sedí
+      přerámování"), po určitém počtu odpovědí zobrazit výsledky — Bob má
+      hotové lidské popisy výsledků z praxe (posílá klientům po YSQ).
+      Vyhodnocení čistě lokálně (localStorage), což v appce i řekneme.
+      Před stavbou zkontrolovat vyváženost položek napříč schématy.
+      Zdroj položek: `brana3_test_vyroky.json`.
+- [ ] **Strachy — vstupní brána: dvoukrokové uvědomění (nápad 26. 8. 2026,
+      potvrzeno 27. 8.).** Bob má připravený vlastní seznam nejčastějších
+      lidských obav. Sociální/vztahové strachy: přímé mapování. Fobické:
+      mezikrok „čeho se v tom bojím doopravdy" (nabídka hlubších strachů /
+      významů). Koncept „strach → Čeho se v tom doopravdy bojím? →
+      jádrové pocity → klastr". Místo statického mapování (u fobií selhává —
+      každý má jiný důvod) si uživatel vybere VÝZNAM svého strachu, a tím
+      udělá terapeutický mini-krok: uvědomění před prvním přerámováním.
+      Mechanika = zhmotněný návod „párkrát se zeptej proč".
+      - **Globální paleta ~12–15 významů** v 1. osobě („umřu a nikdo mi
+        nepomůže", „ztrapním se", „ztratím kontrolu", „budu na obtíž",
+        „budou ke mně lhostejní"…), každý význam nese `feeling_ids`
+        namapované jednou. Každý strach si vybírá podmnožinu 4–6 z palety —
+        žádný obsah per strach. Předloha taxonomie: sloupec „Předmět obav"
+        v tab.xlsx (11 kategorií), přeložit do lidské řeči.
+      - Fobické strachy navíc proklik na existující obsah: expoziční cvičení,
+        článek o falešném poplachu, krizovka, tělesné příznaky. Případně
+        2–3 věty psychoedukace + situační kotva („můžeš kdykoli vystoupit")
+        jako perex — pár vět, žádný triplet.
+      - **Mantinel proti rozkročení:** strachům se NEPÍŠOU vlastní přerámování.
+        Když je strach tak specifický, že klastrová přerámování nestačí,
+        je to ve skutečnosti bolístka a přesouvá se tam.
+      - Zdroje seznamu strachů: sloupce „Fobie lidsky" (38) a výběr
+        z „Běžných strachů" (193) v tab.xlsx. Cíl ~40–60 strachů.
+      - Výsledná architektura vstupů: Pocity (přímo) · Bolístky (obsahová
+        vrstva) · Strachy (dvoukrokové uvědomění) — tři dveře, jeden dům
+        (116 klastrů).
+- [ ] **Dočasný admin — editační režim přímo v `cesta.html` (nápad 26. 8. 2026).**
+      Bob bude v příštích týdnech kontrolovat nový obsah (22 body příznaků,
+      sklizně otázek a citátů) a chce to dělat přímo v prostředí, které pak
+      uvidí uživatelé. Plán: decentně upravit appku pro editaci — tenká vrstva
+      nad existujícím renderem, ne přestavba admina. Rozsah a mechanismus
+      (úprava textu, export zpět do JSONu) domluvit, až se do toho půjde.
 - [ ] **Admin nástroj — přestavba od nuly.** `cesta_admin.html` je zastaralý
       a rozešel se s realitou (špatné prefixy, třímístný padding, nezná triplet).
       Hlavní věc k předělání: přerámování musí být **cluster-scoped**, ne plochý
@@ -95,6 +220,11 @@ Mechanika, nepotřebuje Bobovo rozhodnutí — jen se to musí udělat.
       `tagy.json` a dokumentace.
 
 ---
+
+## Nápadník
+
+- **„Najdeš se?"** — nápad na slogan nebo jméno appky (Bob, 26. 8. 2026).
+  Do foroty, netrvá se na něm. Sedí k bolístkám-zrcadlu i k výběru pocitů.
 
 ## Nedávno vyřízené
 

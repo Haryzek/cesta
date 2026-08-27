@@ -293,7 +293,7 @@ Tři seznamy navázané vždy na jeden konkrétní klastr (ne na jednotlivý poc
 
 ### 10. Inspirace — `inspirations.json`
 
-Citáty, rady, moudra.
+Citáty, rady, moudra. `author` smí být `null` (lidová moudra, přísloví, vlastní výroky bez atribuce) — rozhodnuto 26. 8. 2026. Nový obsah jde ze sklizňového promptu `local/_prompty/citaty.md`; u sklizených položek se `schemas` zatím neplní (citáty jsou lidsky univerzální, doplnění schémat je odložené rozhodnutí).
 
 ```json
 {
@@ -312,6 +312,8 @@ Citáty, rady, moudra.
 ### 11. Podnětné otázky — `questions.json`
 
 Otázky k sebereflexi. Sdílí sadu tagů s inspiracemi.
+
+**Předělávka rozhodnutá 25. 8. 2026:** sekce budou univerzální seberozvojovky v samomluvě/ich-formě („Kdy se cítím nejvíc sám / sama sebou?"). Nový `questions.json` bude **bez pole `schemas`** — otázky vědomě vypadnou z doporučování, univerzálky nemají komu cílit. Stávajících 63 schema-otázek (ukázka níže) se při konverzi skartuje. Sklizeň ~193 otázek čeká v `local/data_wip/questions_wip/sklizen.json` na ruční čištění; prompt: `local/_prompty/otazky.md`.
 
 ```json
 {
@@ -337,7 +339,7 @@ Otázky k sebereflexi. Sdílí sadu tagů s inspiracemi.
 | exercises | 3 | `added_at` | — |
 | reframings / _questions / _actions | — | `added_at` | `cluster_id` |
 | inspirations | 3 | `added_at` | — |
-| questions | 3 | `added_at` | — |
+| questions | 3 *(po předělávce z 25. 8. 2026 žádná)* | `added_at` | — |
 
 ---
 
@@ -541,7 +543,7 @@ Karta v oblíbených vypadá stejně jako ve své sekci (`kind` v `FAV_VIEW` mus
 
 ## Doporučování obsahu
 
-Odpovídá na otázku „který obsah nabídnout na základě toho, co uživatel dlouhodobě prožívá". Platí pro mikročlánky, cvičení, inspirace a podnětné otázky (typy s polem `schemas`). Každý typ se skóruje zvlášť, obsah se mezi typy nemíchá.
+Odpovídá na otázku „který obsah nabídnout na základě toho, co uživatel dlouhodobě prožívá". Platí pro mikročlánky, cvičení, inspirace a podnětné otázky (typy s polem `schemas`). Každý typ se skóruje zvlášť, obsah se mezi typy nemíchá. *Pozn.: po předělávce z 25. 8. 2026 podnětné otázky o `schemas` přijdou a z doporučování vypadnou; nové sklizené inspirace `schemas` zatím nemají — doporučovat se z nich bude jen obsah, který schémata má.*
 
 ### Profil
 

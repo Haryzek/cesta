@@ -34,12 +34,16 @@ Praktický důsledek: dokud jsme v prototypu, ID v JSONech zůstávají. Až se 
 
 - Klastry (116) + pocity (399): kompletní mapa s ID a schématy ✅
 - Triplet přerámování: testovací fáze, zatím 4 klastry (`cl_0001` neviditelný, `cl_0008` zbytečný, `cl_0013` nedůvěřivý, `cl_0031` špatný)
-- Krizovka (12), Tělesné příznaky (5): obsahově hotové a pročištěné, slouží jako etalon
+- Krizovka (12): obsahově hotová a pročištěná, slouží jako etalon
+- Tělesné příznaky: **31** (26. 8. 2026) — původních 5 pročištěných (etalon) + 26 nových napsaných podle šablony (neuro/RS, štítná žláza, spánek, derealizace, hormony, váha, intimita…), obsahově zatím neprověřených Bobem. Zdroj výběru: sloupec „Tělesné příznaky" + somatizační index v Bobově monster tabulce (`C:\Users\bobre\Desktop\tab.xlsx`), vytěženo dočista
 - Cvičení (71), Články (112), Oddíly (11), Řetězy (4): nasazené v `data/` (14. 8. 2026). Strukturálně čisté, obsahově neprověřené — viz `TODO.md`.
+- Podnětné otázky: **předělávka rozhodnutá 25. 8. 2026** — sekce budou univerzální seberozvojovky v samomluvě/ich-formě („Kdy se cítím nejvíc sám / sama sebou?"), nový `questions.json` bude **bez pole `schemas`** (otázky vědomě vypadnou z doporučování — univerzálky nemají komu cílit). Stávajících 63 schema-otázek se při konverzi skartuje. Sklizeň ~193 otázek ze zdrojů čeká v `local/data_wip/questions_wip/sklizen.json` na Bobovo ruční čištění; pak tagy ex post z `tagy.json` a konverze do `data/`. Prompt sklizně: `local/_prompty/otazky.md`.
+- Inspirace: **sklizeň citátů rozhodnutá 26. 8. 2026** — stejná pipeline jako hloubavky (sklizeň ~200 → čištění → tagy ex post → konverze). `author` smí být `null` (lidová moudra, vlastní hlody), `schemas` se u nových položek zatím neplní — citáty jsou lidsky univerzální, případné doplnění schémat je odložené rozhodnutí. Prompt: `local/_prompty/citaty.md` (obsahuje i pipeline dosklizně bez duplikací).
+- Bolístky (brána 4): **fabrika hlášek běží — stav 43/174** (27. 8. 2026, pauza kvůli usage limitu). Vše v `local/data_wip/bolistky_wip/`: zdroj = `brana4_bolistky.json` (174 bolístek), hotové dávky = `hlasky_davka01–04.json` (formát `{bolistka_id, bolistka, hlasky: [15]}`; dávka 1 má starší členění vybrané/zásoba — vše se zachovává), + 3 kalibrační bolístky v `hlasky_kalibrace.md` (12 hlášek starým procesem, dorovnat na konci). `brana3_test_vyroky.json` (334) čeká na budoucí YSQ test. **Jak pokračovat:** proces řídí `local/_prompty/bolistky-hlasky.md` — 1 agent (Fable) = 1 bolístka = 3 sekvenční zprávy (kolo A volné MUSÍ být samostatná první zpráva, pak B řemeslo, pak C kontrola BEZ škrtání — všech 15 jde dál, Bob škrtá sám). Dávky po 10, průběžně hlásit stav, výstup slévat orchestrátorem (pozor na ASCII zavírací uvozovky — rozbíjí JSON, viz poznámky v promptu). Po doběhu: deduplikační pas (kovboj a spol.) — viz TODO.md.
 - Ostatní obsah: vzorek, plní se
 - Vizuál: nový design systém nasazený (17. 7. 2026), základ odladěný. Karty Přerámování čekají na doladění s Bobem.
 
-**Generování obsahu z promptů:** v `local/_prompty/` (nepushuje se) jsou prompty pro tvorbu JSONů — `telesne-priznaky.md`, `cviceni.md`, `clanky.md`. Popisují, jak přetavit libovolný zdroj do naší struktury a hlasu. Vzory jsou reálné pročištěné JSONy. Bob sbírá cvičení/články z různých zdrojů a přes tyhle prompty (v Coworku) je převádíme do struktury. Přerámování, Otázky a Inspirace půjdou z Bobových Excel seznamů, ne přes textové prompty.
+**Generování obsahu z promptů:** v `local/_prompty/` (nepushuje se) jsou prompty pro tvorbu JSONů — `telesne-priznaky.md`, `cviceni.md`, `clanky_kraceni_prompt.md` (přetavení zdroje do struktury a hlasu), `bolistky-hlasky.md` (dvoukolová fabrika hlášek, viz Stav) a sklizňové prompty `otazky.md`, `citaty.md` (internetová sklizeň → WIP JSON → Bobovo ruční čištění → tagy ex post z `tagy.json` → konverze do `data/`). Vzory jsou reálné pročištěné JSONy. Přerámování jdou z Bobových Excel seznamů, ne přes prompty.
 
 ### Zdrojáky obsahu a rebuild — čti dřív, než sáhneš do `data/`
 
@@ -109,7 +113,7 @@ Všech 13 JSONů leží v **`data/`** a všechny jsou ploché listy (žádný ob
 - **Články** stojí mimo — autorská řeč, kombinace vykání a „my" je tam **záměrná**.
 
 Kdo má co:
-- **`schemas`** mají: clusters (5), articles, exercises, inspirations, questions (3). **Nemají**: feelings, crisis, body, triplet, sections, chains.
+- **`schemas`** mají: clusters (5), articles, exercises, inspirations (3); questions je mají zatím taky, ale po předělávce (viz Stav) o ně přijdou. **Nemají**: feelings, crisis, body, triplet, sections, chains.
 - **datum** má většina (`added_at`); articles má navíc `published_at`. **Nemají**: crisis, body (jsou to malé stabilní sady, které se nebudou rozšiřovat — je to záměr, ne opomenutí).
 - **`cluster_id`** mají: feelings, triplet (ref/refq/refa).
 
