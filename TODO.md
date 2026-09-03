@@ -212,6 +212,21 @@ Potřebuje domluvu, pak už to Claude dotáhne.
       - Výsledná architektura vstupů: Pocity (přímo) · Bolístky (obsahová
         vrstva) · Strachy (dvoukrokové uvědomění) — tři dveře, jeden dům
         (116 klastrů).
+- [ ] **Přerámování jako swipe proud s pamětí (rozhodnutý směr 3. 9. 2026).**
+      Karty přerámování vedle sebe na swipe (CSS `scroll-snap`, bez knihovny)
+      a `localStorage` seznam ID, která uživatel už viděl („viděl" = karta byla
+      celá na obrazovce). Mění to logiku sekce: ze **seznamu k přečtení** na
+      **proud, do kterého se člověk vrací** — pár karet, srdíčko, pryč, zítra
+      zas. Důsledky: (1) škrtat přerámování jen za kvalitu, ne za objem —
+      velký počet na klastr přestává být dluh, je to zásoba; (2) řazení
+      „neviděné první, viděné za nimi", `sort_order` zůstává, paměť ho jen
+      předběhne, kolové míchání u více pocitů beze změny; (3) appka musí
+      **sama nabídnout odchod** — po pár kartách měkký předěl „Stačí pro
+      dnes?" (zavřít / ještě), jinak lidé swipují do konce a odcházejí
+      s pocitem nedokoukaného seriálu. Stejný vzor jako scroll po dávkách
+      u bolístek — jedna komponenta pro obě sekce. Paměť je per doména
+      (Pages vs. Mioweb si ji nesdílí, stejně jako oblíbené). Stavět po
+      domluvě o detailech, gou zatím není.
 - [ ] **Dočasný admin — editační režim přímo v `cesta.html` (nápad 26. 8. 2026).**
       Bob bude v příštích týdnech kontrolovat nový obsah (22 body příznaků,
       sklizně otázek a citátů) a chce to dělat přímo v prostředí, které pak
