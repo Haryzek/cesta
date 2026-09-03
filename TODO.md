@@ -29,6 +29,20 @@ podklad, seznam nebo návrh — ale poslední slovo je Bobovo.
       musí Bob.
 - [ ] **Zadat, jestli projet perexy článků.** U cvičení se to udělalo (8 přepsaných
       z 71). U 112 článků se perexy zatím nikdo nedíval stejným metrem.
+- [ ] **Kurátorské škrtání hlášek k bolístkám — top 15 ze ~35.** Fabrika doběhla
+      1. 9. 2026: náš pool 174 × 15 (`hlasky_davka01–18*.json`) + Karolínčin pool
+      174 × 20 (`hlasky_karolinka.md`) = ~6100 kandidátů. Cíl: **vybrat 15 na
+      bolístku, ne seřazovat** — většina je dobrá a rozdíly v prostředku jsou
+      vkusový šum. Vybírat jako **portfolio rolí** (uznání · břitkost · praktický
+      šťouch · otázka · humor · tělo · perspektiva času), ne patnáct variant
+      nejsilnějšího úhlu. Claude umí seříznout ~35 → ~22 (spodek, duplikáty,
+      prohřešky) a označit svých top 15; Bob pak vybírá z předvýběru.
+      Kalibrace shody: `kuratorska_kalibrace_kolo1_p002.md` (kolo 1, 1. 9. 2026),
+      další kola volitelně.
+- [ ] **Rozhodnout o `k_222`.** `hlasky_davka03.json` má hlášky k bolístce
+      „Celý můj kalendář jsou povinnosti pro ostatní — kde tam jsem já?", která
+      ve zdrojáku `brana4_bolistky.json` není. Doplnit do zdrojáku (pak 175),
+      nebo hlášky zahodit.
 - [ ] **Pročistit sklizeň hloubavek.** 193 otázek v samomluvě čeká
       v `local/data_wip/questions_wip/sklizen.json` (sklizeno 25. 8. 2026).
       Po Bobově čištění Claude: tagy ex post z `tagy.json`, konverze do nového
@@ -110,6 +124,11 @@ Potřebuje domluvu, pak už to Claude dotáhne.
       identifikovat opakovačky a provést náhrady (mořský vlk apod.) anebo
       atribuci úplně vypustit. Kovbojské hlášky samotné zůstávají — jsou dobré,
       řeší se jen hustota stejné figury.
+      **Stav 1. 9. 2026: fabrika doběhla (174/174, 2625 hlášek), dedup je teď
+      na řadě.** Kromě kovboje se opakují i „X je jediný sport, kde…" (2× jen
+      mezi p_002 a p_004), „kdyby X umělo mluvit", „perspektiva delšího času"
+      a „lhostejnost by mlčela". Dává smysl dělat dedup **až při kurátorském
+      škrtání** — část opakovaček odpadne sama tím, že se vybírá 15 z ~35.
       **UI vize (odsouhlaseno jako směr):** žádná nová dlaždice — vstup do
       sekce Přerámování se přestaví na rozcestník tří dveří („Co právě cítím"
       / „Co mě žere" / „Čeho se bojím"), s krátkým návodem „párkrát se zeptej
